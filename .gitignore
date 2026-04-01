@@ -41,3 +41,13 @@ Packages/*.lock
 
 # 性能分析数据
 *.profileresults
+
+# Unity 构建输出（不上传到 Git，通过 Releases 发布）
+*.apk
+*.aab
+*.ipa
+*.exe
+*.app
+*.xapk
+Builds/
+Export/
