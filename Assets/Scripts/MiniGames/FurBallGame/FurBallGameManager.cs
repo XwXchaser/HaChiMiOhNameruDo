@@ -1,4 +1,5 @@
 using UnityEngine;
+using HaChiMiOhNameruDo.Gameplay;
 
 namespace HaChiMiOhNameruDo.MiniGames.FurBallGame
 {
