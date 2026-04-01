@@ -1,5 +1,6 @@
 using UnityEngine;
 using HaChiMiOhNameruDo.Gameplay;
+using HaChiMiOhNameruDo.Managers;
 
 namespace HaChiMiOhNameruDo.MiniGames.TissueGame
 {

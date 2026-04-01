@@ -1,4 +1,5 @@
 using UnityEngine;
+using HaChiMiOhNameruDo.MiniGames;
 
 namespace HaChiMiOhNameruDo.Managers
 {

@@ -1,4 +1,5 @@
 using UnityEngine;
+using HaChiMiOhNameruDo.Managers;
 
 namespace HaChiMiOhNameruDo.UI
 {
