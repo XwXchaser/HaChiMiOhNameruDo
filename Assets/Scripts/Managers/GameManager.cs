@@ -1,5 +1,6 @@
 using UnityEngine;
-using HaChiMiOhNameruDo.MiniGames;
+using HaChiMiOhNameruDo.MiniGames.FurBallGame;
+using HaChiMiOhNameruDo.MiniGames.TissueGame;
 
 namespace HaChiMiOhNameruDo.Managers
 {
