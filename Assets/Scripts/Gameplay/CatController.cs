@@ -5,18 +5,13 @@ namespace HaChiMiOhNameruDo.Gameplay
     /// <summary>
     /// 猫咪控制器
     /// 负责控制猫咪的动画、状态和行为
+    /// 当前仅支持呼吸和眨眼动画
     /// </summary>
     public class CatController : MonoBehaviour
     {
         [Header("动画组件")]
         [SerializeField] private Animator animator;
         [SerializeField] private SpriteRenderer spriteRenderer;
-
-        [Header("动画参数")]
-        private static readonly int IdleHash = Animator.StringToHash("Idle");
-        private static readonly int JumpHash = Animator.StringToHash("Jump");
-        private static readonly int PawsHash = Animator.StringToHash("Paws");
-        private static readonly int BackHash = Animator.StringToHash("Back");
 
         [Header("毛球小游戏设置")]
         [SerializeField] private Transform furBallSpawnPoint;   // 毛球生成点（头顶）
@@ -43,19 +38,19 @@ namespace HaChiMiOhNameruDo.Gameplay
 
         private void Start()
         {
-            // 初始化为 IDLE 状态
-            SetIdle();
+            // 初始化为 IDLE 状态（Animator 会自动播放默认状态）
+            isBackToPlayer = false;
+            Debug.Log("[Cat] 进入 IDLE 状态");
         }
 
         #region 状态控制
 
         /// <summary>
-        /// 设置 IDLE 状态
+        /// 设置 IDLE 状态（面向前方）
         /// </summary>
         public void SetIdle()
         {
             isBackToPlayer = false;
-            SetAnimation(IdleHash);
             Debug.Log("[Cat] 进入 IDLE 状态");
         }
 
@@ -65,16 +60,16 @@ namespace HaChiMiOhNameruDo.Gameplay
         public void PrepareForFurBall()
         {
             isBackToPlayer = false;
-            SetAnimation(IdleHash);
+            Debug.Log("[Cat] 准备拍击毛球");
         }
 
         /// <summary>
-        /// 执行拍击动作
+        /// 执行拍击动作（毛球小游戏）
         /// </summary>
         public void DoPaws()
         {
-            SetAnimation(PawsHash);
             Debug.Log("[Cat] 执行拍击动作");
+            // 后续可以在这里添加 Animator 触发拍击动画
         }
 
         /// <summary>
@@ -83,24 +78,12 @@ namespace HaChiMiOhNameruDo.Gameplay
         public void PrepareForTissue()
         {
             isBackToPlayer = true;
-            SetAnimation(BackHash);
             Debug.Log("[Cat] 背对玩家，准备纸巾筒游戏");
         }
 
         #endregion
 
         #region 动画控制
-
-        /// <summary>
-        /// 设置动画状态
-        /// </summary>
-        private void SetAnimation(int animationHash)
-        {
-            if (animator != null)
-            {
-                animator.SetTrigger(animationHash);
-            }
-        }
 
         /// <summary>
         /// 翻转猫咪朝向
