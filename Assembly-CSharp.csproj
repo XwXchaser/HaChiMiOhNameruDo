@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\MiniGames\TissueGame\TissuePaper.cs" />
     <Compile Include="Assets\Scripts\MiniGames\TissueGame\TissueBox.cs" />
     <Compile Include="Assets\Scripts\Gameplay\CatController.cs" />
+    <Compile Include="Assets\Scripts\Gameplay\CatBreathController.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Gameplay\InputHandler.cs" />
     <Compile Include="Assets\Scripts\MiniGames\FurBallGame\FurBallGameManager.cs" />
