@@ -28,11 +28,17 @@ namespace HaChiMiOhNameruDo.Managers
         [Header("小游戏时长设置")]
         [SerializeField] private float miniGameDuration = 30f; // 每个小游戏持续 30 秒
 
+        [Header("退出延迟设置")]
+        [SerializeField] private float exitDelay = 2f; // 退出小游戏后等待 2 秒再返回 IDLE
+
         public GameState CurrentState => currentState;
         public float MiniGameDuration => miniGameDuration;
+        public float ExitDelay => exitDelay;
 
         private float gameTimer;
         private bool isGameRunning;
+        private bool isExitingGame;
+        private float exitTimer;
 
         private void Awake()
         {
@@ -63,6 +69,17 @@ namespace HaChiMiOhNameruDo.Managers
                 if (gameTimer <= 0)
                 {
                     EndMiniGame();
+                }
+            }
+
+            // 处理退出延迟
+            if (isExitingGame)
+            {
+                exitTimer -= Time.deltaTime;
+                if (exitTimer <= 0)
+                {
+                    isExitingGame = false;
+                    SetGameState(GameState.Idle);
                 }
             }
         }
@@ -147,6 +164,8 @@ namespace HaChiMiOhNameruDo.Managers
             gameTimer = miniGameDuration;
             // 启动毛球小游戏
             FurBallGameManager.Instance?.StartGame();
+            // 显示毛球小游戏 UI
+            UIManager.Instance?.ShowFurBallGameUI();
         }
 
         private void ExitFurBallGame()
@@ -165,6 +184,8 @@ namespace HaChiMiOhNameruDo.Managers
             gameTimer = miniGameDuration;
             // 启动纸巾筒小游戏
             TissueGameManager.Instance?.StartGame();
+            // 显示纸巾筒小游戏 UI
+            UIManager.Instance?.ShowTissueGameUI();
         }
 
         private void ExitTissueGame()
@@ -200,11 +221,45 @@ namespace HaChiMiOhNameruDo.Managers
         }
 
         /// <summary>
+        /// 退出小游戏（带延迟，让小游戏物体缓慢移出屏幕）
+        /// </summary>
+        public void ExitMiniGame()
+        {
+            if (!isGameRunning || isExitingGame) return;
+
+            isExitingGame = true;
+            exitTimer = exitDelay;
+            isGameRunning = false;
+
+            Debug.Log($"[GameManager] 退出小游戏，{exitDelay}秒后返回 IDLE");
+
+            // 通知小游戏管理器结束游戏（让物体缓慢移出）
+            if (currentState == GameState.FurBallGame)
+            {
+                FurBallGameManager.Instance?.EndGame();
+            }
+            else if (currentState == GameState.TissueGame)
+            {
+                TissueGameManager.Instance?.EndGame();
+            }
+
+            // 隐藏小游戏 UI
+            UIManager.Instance?.HideAllUI();
+        }
+
+        /// <summary>
         /// 强制返回 IDLE 状态（例如玩家点击返回按钮）
         /// </summary>
         public void ReturnToIdle()
         {
-            SetGameState(GameState.Idle);
+            if (isGameRunning)
+            {
+                ExitMiniGame();
+            }
+            else
+            {
+                SetGameState(GameState.Idle);
+            }
         }
     }
 }
