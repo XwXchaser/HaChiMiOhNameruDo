@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Editor\RhythmSceneSetupTool.cs" />
     <Compile Include="Assets\Scripts\Editor\BeatmapEditorWindow.cs" />
+    <Compile Include="Assets\Scripts\Editor\TissueGameSceneSetupTool.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

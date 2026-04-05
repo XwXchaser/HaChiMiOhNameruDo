@@ -66,6 +66,18 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
             }
         }
 
+        /// <summary>
+        /// 设置 SpriteRenderer（用于运行时动态创建时设置引用）
+        /// </summary>
+        public void SetSpriteRenderer(SpriteRenderer renderer)
+        {
+            spriteRenderer = renderer;
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sortingOrder = sortingLayerOrder;
+            }
+        }
+
         private void Start()
         {
             // 初始显示纸巾（即使扒拉次数为 0 也显示）

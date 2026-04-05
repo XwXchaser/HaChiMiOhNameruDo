@@ -64,6 +64,14 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
                 config = FindObjectOfType<TissueGameConfig>();
             }
 
+            InitializeRenderers();
+        }
+
+        /// <summary>
+        /// 初始化精灵渲染器
+        /// </summary>
+        private void InitializeRenderers()
+        {
             // 初始化精灵
             if (l2Renderer != null)
             {
@@ -78,6 +86,16 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
                 l1Renderer.enabled = false;  // 初始隐藏
                 l1Renderer.sortingOrder = sortingLayerOrder + 1;  // L1 在 L2 上层
             }
+        }
+
+        /// <summary>
+        /// 设置 L2 和 L1 渲染器（用于运行时动态创建时设置引用）
+        /// </summary>
+        public void SetRenderers(SpriteRenderer l2, SpriteRenderer l1)
+        {
+            l2Renderer = l2;
+            l1Renderer = l1;
+            InitializeRenderers();
         }
 
         /// <summary>

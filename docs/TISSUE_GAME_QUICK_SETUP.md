@@ -53,9 +53,11 @@
 
 ---
 
-## 2. TissuePaper 配置
+## 2. TissuePaper 配置（纸巾条）
 
 ### 在 Hierarchy 中选择 `TissuePaper` 对象
+
+TissuePaper 负责管理从纸巾筒拉出的纸巾条，根据扒拉次数显示 Short 或 Long 状态。
 
 ### Inspector 配置面板
 
@@ -74,11 +76,37 @@
 └─────────────────────────────────┘
 ```
 
+### 配置步骤
+
+1. **添加组件**
+   - 选中 `TissuePaper` 对象
+   - 添加 `Sprite Renderer` 组件
+   - 添加 `TissuePaper` 脚本组件
+
+2. **配置组件引用**
+   - `Sprite Renderer`: 将 SpriteRenderer 组件拖拽到字段
+
+3. **配置精灵**
+   - `Tissue Short`: 拖拽短纸巾精灵（初次被扒拉或切断后显示）
+   - `Tissue Long`: 拖拽长纸巾精灵（扒拉 5 次后显示）
+
+4. **设置阈值**
+   - `Long Threshold`: 设置为 5，表示扒拉 5 次后切换到长纸巾
+
+### 工作原理
+
+- **0 次扒拉**: 显示短纸巾（默认）
+- **1-4 次扒拉**: 显示短纸巾
+- **5+ 次扒拉**: 显示长纸巾
+- **切断后**: 重置为短纸巾
+
 ---
 
-## 3. TissuePileManager 配置
+## 3. TissuePileManager 配置（纸巾堆）
 
 ### 在 Hierarchy 中选择 `TissuePileManager` 对象
+
+TissuePileManager 负责管理地面上堆积的纸巾，分为 L1 和 L2 两层显示。
 
 ### Inspector 配置面板
 
@@ -92,7 +120,44 @@
 │ Pile L2          │ [纸巾堆 L2 精灵]      │
 │ Pile L1          │ [纸巾堆 L1 精灵]      │
 └─────────────────────────────────┘
+
+┌─ 配置引用 ─────────────────────┐
+│ Config           │ [TissueGameConfig]   │
+└─────────────────────────────────┘
 ```
+
+### 配置步骤
+
+1. **创建子对象**
+   - 在 `TissuePileManager` 下创建两个空子对象：`PileL2` 和 `PileL1`
+   - 为每个子对象添加 `Sprite Renderer` 组件
+
+2. **添加组件**
+   - 选中 `TissuePileManager` 对象
+   - 添加 `TissuePileManager` 脚本组件
+
+3. **配置组件引用**
+   - `L2 Renderer`: 将 PileL2 的 SpriteRenderer 拖拽到字段
+   - `L1 Renderer`: 将 PileL1 的 SpriteRenderer 拖拽到字段
+   - `Config`: 拖拽 TissueGameConfig 资源（如果有）
+
+4. **配置精灵**
+   - `Pile L2`: 拖拽纸巾堆 L2 精灵（5 次扒拉后显示）
+   - `Pile L1`: 拖拽纸巾堆 L1 精灵（10 次扒拉后叠加显示）
+
+### 工作原理
+
+| 扒拉次数 | L2 显示 | L1 显示 |
+|---------|--------|--------|
+| 0-4 次   | ❌     | ❌     |
+| 5-9 次   | ✅     | ❌     |
+| 10 次    | ✅     | ✅     |
+
+### 清理机制
+
+- 每 3 次横向划动清理一层
+- 先清理 L1（10 次层），再清理 L2（5 次层）
+- 清理时播放淡出动画
 
 ---
 

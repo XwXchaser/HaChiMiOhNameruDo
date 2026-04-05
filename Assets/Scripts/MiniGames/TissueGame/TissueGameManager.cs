@@ -25,16 +25,16 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         }
 
         [Header("组件引用")]
-        [Tooltip("纸巾筒组件")]
+        [Tooltip("纸巾筒组件（场景中的对象或 Prefab）")]
         public TissueBox tissueBox;
 
-        [Tooltip("纸巾组件")]
+        [Tooltip("纸巾组件（场景中的对象或 Prefab）")]
         public TissuePaper tissuePaper;
 
-        [Tooltip("堆积纸巾管理器")]
+        [Tooltip("堆积纸巾管理器（场景中的对象或 Prefab）")]
         public TissuePileManager pileManager;
 
-        [Tooltip("输入处理器")]
+        [Tooltip("输入处理器（场景中的对象或 Prefab）")]
         public TissueInputHandler inputHandler;
 
         [Header("配置引用")]
@@ -44,12 +44,21 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         [Tooltip("猫咪控制器（用于播放动画）")]
         private CatController catController;
 
+        // 实例化的对象（用于清理）
+        private TissueBox instantiatedTissueBox;
+        private TissuePaper instantiatedTissuePaper;
+        private TissuePileManager instantiatedPileManager;
+        private TissueInputHandler instantiatedInputHandler;
+
         // 状态
         private TissueGameState currentState = TissueGameState.Idle;
 
         // 游戏数据
         private int score = 0;
         private int tissuesUsed = 0;
+
+        // 扒拉计数跟踪
+        private int lastPullCount = 0;  // 上次记录的扒拉次数
 
         // 事件
         public delegate void GameAction();
@@ -94,6 +103,19 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
             
             // 获取猫咪控制器
             catController = FindObjectOfType<CatController>();
+
+            // 调试日志：输出所有引用状态
+            Debug.Log($"[TissueGameManager] Awake: tissueBox={(tissueBox != null ? "found" : "null")}, tissuePaper={(tissuePaper != null ? "found" : "null")}, pileManager={(pileManager != null ? "found" : "null")}, inputHandler={(inputHandler != null ? "found" : "null")}");
+
+            // 设置 TissueBox 的内部引用
+            if (tissueBox != null)
+            {
+                tissueBox.SetupReferences(tissuePaper, pileManager);
+            }
+            else
+            {
+                Debug.LogError("[TissueGameManager] TissueBox 未找到！请确保场景中有 TissueBox 组件。");
+            }
         }
 
         private void OnEnable()
@@ -187,15 +209,101 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
             
             catController?.PlayTissueIdle();
 
-            // 确保所有组件都被激活
-            if (tissueBox != null && !tissueBox.gameObject.activeSelf)
-                tissueBox.gameObject.SetActive(true);
-            if (tissuePaper != null && !tissuePaper.gameObject.activeSelf)
-                tissuePaper.gameObject.SetActive(true);
-            if (pileManager != null && !pileManager.gameObject.activeSelf)
-                pileManager.gameObject.SetActive(true);
-            if (inputHandler != null && !inputHandler.gameObject.activeSelf)
-                inputHandler.gameObject.SetActive(true);
+            // 实例化或激活 TissueBox
+            if (tissueBox != null)
+            {
+                // 检查是否是 Prefab（通过检查 gameObject 是否在场景中）
+                if (!tissueBox.gameObject.scene.IsValid() || tissueBox.gameObject.scene.isLoaded == false)
+                {
+                    // 是 Prefab，需要实例化
+                    Debug.Log("[TissueGameManager] 实例化 TissueBox Prefab");
+                    TissueBox newBox = Instantiate(tissueBox);
+                    newBox.gameObject.name = "TissueBox";
+                    instantiatedTissueBox = newBox;
+                    tissueBox = newBox;
+                }
+                else
+                {
+                    // 已在场景中，只需激活
+                    tissueBox.gameObject.SetActive(true);
+                    tissueBox.enabled = true;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[TissueGameManager] TissueBox 引用未设置，尝试在场景中查找");
+                tissueBox = FindObjectOfType<TissueBox>();
+            }
+
+            // 实例化或激活 TissuePaper
+            if (tissuePaper != null)
+            {
+                // 检查是否是 Prefab（通过检查 gameObject 是否在场景中）
+                if (!tissuePaper.gameObject.scene.IsValid() || tissuePaper.gameObject.scene.isLoaded == false)
+                {
+                    // 是 Prefab，需要实例化
+                    Debug.Log("[TissueGameManager] 实例化 TissuePaper Prefab");
+                    TissuePaper newPaper = Instantiate(tissuePaper);
+                    newPaper.gameObject.name = "TissuePaper";
+                    instantiatedTissuePaper = newPaper;
+                    tissuePaper = newPaper;
+                }
+                else
+                {
+                    // 已在场景中，只需激活
+                    tissuePaper.gameObject.SetActive(true);
+                    tissuePaper.enabled = true;
+                }
+            }
+            else
+            {
+                Debug.LogWarning("[TissueGameManager] TissuePaper 引用未设置，尝试在场景中查找");
+                tissuePaper = FindObjectOfType<TissuePaper>();
+            }
+
+            // 实例化或激活 PileManager
+            if (pileManager != null)
+            {
+                if (!pileManager.gameObject.scene.IsValid() || pileManager.gameObject.scene.isLoaded == false)
+                {
+                    Debug.Log("[TissueGameManager] 实例化 TissuePileManager Prefab");
+                    TissuePileManager newPile = Instantiate(pileManager);
+                    newPile.gameObject.name = "TissuePileManager";
+                    instantiatedPileManager = newPile;
+                    pileManager = newPile;
+                }
+                else
+                {
+                    pileManager.gameObject.SetActive(true);
+                    pileManager.enabled = true;
+                }
+            }
+            else
+            {
+                pileManager = FindObjectOfType<TissuePileManager>();
+            }
+
+            // 实例化或激活 InputHandler
+            if (inputHandler != null)
+            {
+                if (!inputHandler.gameObject.scene.IsValid() || inputHandler.gameObject.scene.isLoaded == false)
+                {
+                    Debug.Log("[TissueGameManager] 实例化 TissueInputHandler Prefab");
+                    TissueInputHandler newInput = Instantiate(inputHandler);
+                    newInput.gameObject.name = "TissueInputHandler";
+                    instantiatedInputHandler = newInput;
+                    inputHandler = newInput;
+                }
+                else
+                {
+                    inputHandler.gameObject.SetActive(true);
+                    inputHandler.enabled = true;
+                }
+            }
+            else
+            {
+                inputHandler = FindObjectOfType<TissueInputHandler>();
+            }
 
             // 重置所有组件
             tissueBox?.ResetBox();
@@ -216,6 +324,9 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
             tissueBox?.HandlePull();
             // 触发猫咪扒拉动画
             catController?.PlayTissuePull();
+            
+            // 重置扒拉计数跟踪
+            lastPullCount = 0;
         }
 
         private void HandlePullUpdate(Vector2 startPos, Vector2 delta)
@@ -226,12 +337,18 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
             float pullDistance = Mathf.Abs(delta.y);
             int pullsNeeded = Mathf.FloorToInt(pullDistance / config.pullThreshold);
             
-            // 简单处理：每次 Update 调用 Extend
-            // 实际延伸逻辑由 TissuePaper 根据 pullCount 管理
-            tissuePaper?.Extend();
-            
-            // 同时增加堆积计数
-            pileManager?.AddPull();
+            // 只在超过新的阈值时才增加计数
+            if (pullsNeeded > lastPullCount)
+            {
+                // 增加差值次数
+                int additionalPulls = pullsNeeded - lastPullCount;
+                for (int i = 0; i < additionalPulls; i++)
+                {
+                    tissuePaper?.Extend();
+                    pileManager?.AddPull();
+                }
+                lastPullCount = pullsNeeded;
+            }
         }
 
         private void HandlePullEnd()

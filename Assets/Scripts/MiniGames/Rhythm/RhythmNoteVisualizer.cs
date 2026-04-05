@@ -126,6 +126,7 @@ namespace HaChiMiOhNameruDo.MiniGames.Rhythm
             Debug.Log($"[NoteVisualizer] noteContainer: {(noteContainer == null ? "null" : "已设置")}");
             Debug.Log($"[NoteVisualizer] notePrefab: {(notePrefab == null ? "null" : "已设置")}");
             
+            enabled = true;  // 确保组件启用
             isRunning = true;
             musicStartTime = Time.time;
             CalculateSpeedAndZone();
@@ -140,7 +141,8 @@ namespace HaChiMiOhNameruDo.MiniGames.Rhythm
         {
             isRunning = false;
             ClearAllNotes();
-            Debug.Log("[NoteVisualizer] 音符可视化结束");
+            enabled = false;  // 禁用组件，防止后续 Update 调用和日志输出
+            Debug.Log("[NoteVisualizer] 音符可视化结束，组件已禁用");
         }
 
         #endregion
@@ -564,6 +566,6 @@ namespace HaChiMiOhNameruDo.MiniGames.Rhythm
             }
         }
     }
-    }
+}
 }
 

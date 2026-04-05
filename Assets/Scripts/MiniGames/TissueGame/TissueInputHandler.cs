@@ -19,6 +19,10 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         [Header("配置引用")]
         public TissueGameConfig config;
 
+        [Header("游戏管理器引用")]
+        [Tooltip("用于检查游戏是否在进行中")]
+        private TissueGameManager gameManager;
+
         // 输入状态
         private bool isDragging = false;
         private Vector2 dragStartPos;
@@ -56,10 +60,21 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
             {
                 config = FindObjectOfType<TissueGameConfig>();
             }
+
+            // 获取游戏管理器引用
+            gameManager = FindObjectOfType<TissueGameManager>();
         }
 
         private void Update()
         {
+            // 只在游戏进行中处理输入（Playing 或 Pulling 状态）
+            if (gameManager == null || 
+                (gameManager.CurrentState != TissueGameManager.TissueGameState.Playing &&
+                 gameManager.CurrentState != TissueGameManager.TissueGameState.Pulling))
+            {
+                return;
+            }
+
             HandleMouseInput();
             HandleTouchInput();
         }

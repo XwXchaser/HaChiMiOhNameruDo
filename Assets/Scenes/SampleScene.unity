@@ -171,7 +171,6 @@ GameObject:
   - component: {fileID: 169937130}
   - component: {fileID: 169937131}
   - component: {fileID: 169937134}
-  - component: {fileID: 169937135}
   m_Layer: 3
   m_HasEditorInfo: 1
   m_Name: CatController
@@ -276,22 +275,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &169937135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169937129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4543174501fe95f4699c1e980405e69f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  minBlinkInterval: 3.5
-  maxBlinkInterval: 5.5
-  nextBlinkTime: 0
 --- !u!1 &196598559
 GameObject:
   m_ObjectHideFlags: 0
@@ -960,7 +943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43ab9cc249822af41be76b6b24e5e2ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tissueBox: {fileID: 1110145497238757671, guid: 7862bedf0c2d44b48a70871724a8dcb4, type: 3}
+  tissueBox: {fileID: 1255224535145084681, guid: 7862bedf0c2d44b48a70871724a8dcb4, type: 3}
   tissuePaper: {fileID: 6996177052570672731, guid: f1637f9a28325bb4fbf0fd73d835b814, type: 3}
   pileManager: {fileID: 1852969655}
   inputHandler: {fileID: 593381007}
@@ -1157,7 +1140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &721284546
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1394,7 +1377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1079469798
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1902,7 +1885,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1334906045
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2599,7 +2582,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeLayer: 0
-  m_Offset: {x: -0.011789918, y: 0}
+  m_Offset: {x: -0.011789918, y: 0.19860983}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2609,7 +2592,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 3.145778, y: 1}
+  m_Size: {x: 3.145778, y: 1.3972197}
   m_EdgeRadius: 0
 --- !u!1 &1992746968
 GameObject:
