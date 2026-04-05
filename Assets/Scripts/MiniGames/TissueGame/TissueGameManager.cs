@@ -181,6 +181,12 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
             score = 0;
             tissuesUsed = 0;
 
+            // 准备猫咪状态
+            if (catController == null)
+                catController = FindObjectOfType<CatController>();
+            
+            catController?.PlayTissueIdle();
+
             // 确保所有组件都被激活
             if (tissueBox != null && !tissueBox.gameObject.activeSelf)
                 tissueBox.gameObject.SetActive(true);

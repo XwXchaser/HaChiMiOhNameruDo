@@ -88,24 +88,28 @@
 
 **Inspector 设置：**
 ```
-Holder Renderer: 纸巾筒架子（始终显示）
-Roll Renderer: 纸巾卷精灵渲染器
+Sprite Renderer: 纸巾筒精灵渲染器
 Box Collider: 纸巾筒碰撞体（BoxCollider2D）
 
 美术素材引用:
-  - Roll Idle: TissueGame_TissueRoll_0（默认状态）
-  - Roll Pull 1: TissueGame_TissueRoll_1（抽取动画帧 1）
-  - Roll Pull 2: TissueGame_TissueRoll_2（抽取动画帧 2）
+  - Sprite Idle: TissueGame_Box_0（默认状态）
+  - Sprite Pull 1: TissueGame_Box_1（抽取动画帧 1）
+  - Sprite Pull 2: TissueGame_Box_2（抽取动画帧 2）
 
 动画设置:
   - Pull Animation Speed: 0.1 (抽取动画播放速度，秒/帧)
-  - Disappear Duration: 1.0 (纸巾耗尽时纸卷消失时长)
+  - Disappear Duration: 1.0 (纸巾耗尽时消失时长)
 ```
 
 **位置设置：**
 - 纸巾筒应放置在场景上方
 - 建议 Y 坐标：2.0 ~ 3.0（根据相机大小调整）
 - Collider2D 应覆盖整个纸巾筒可见区域
+
+**简化说明：**
+- 移除了 Holder/Roll 分离的复杂结构
+- 使用单个 SpriteRenderer 通过 Sprite 数组配置动画
+- 配置方式与毛球游戏一致
 
 ### 3. TissuePaper
 
@@ -208,15 +212,31 @@ Config: TissueGameConfig 资源
 ### 步骤 2：创建纸巾筒
 
 1. 在 Hierarchy 创建空对象 `TissueBox`
-2. 添加 `SpriteRenderer`（Holder）和 `SpriteRenderer`（Roll）两个组件
+2. 添加 `SpriteRenderer` 组件
 3. 添加 `BoxCollider2D`
 4. 添加 `TissueBox` 组件
-5. 设置精灵和碰撞体
+5. 设置精灵引用
 
 **Collider2D 设置：**
 ```
 Size: 根据精灵大小调整（例如：X=2, Y=2）
 Center: 根据精灵中心调整
+```
+
+**Inspector 配置：**
+```
+组件引用:
+  - Sprite Renderer: 拖拽 SpriteRenderer 组件
+  - Box Collider: 拖拽 BoxCollider2D 组件
+
+美术素材引用:
+  - Sprite Idle: 默认状态精灵
+  - Sprite Pull 1: 抽取动画帧 1
+  - Sprite Pull 2: 抽取动画帧 2
+
+动画设置:
+  - Pull Animation Speed: 0.1
+  - Disappear Duration: 1.0
 ```
 
 ### 步骤 3：创建纸巾
@@ -324,10 +344,9 @@ Position: Y=-2.5 (根据相机调整)
 
 | 素材名称 | 用途 | 设置位置 |
 |----------|------|----------|
-| TissueGame_Holder | 纸巾筒架子 | TissueBox.Holder Renderer |
-| TissueGame_TissueRoll_0 | 纸巾筒默认状态 | TissueBox.Roll Idle |
-| TissueGame_TissueRoll_1 | 抽取动画帧 1 | TissueBox.Roll Pull 1 |
-| TissueGame_TissueRoll_2 | 抽取动画帧 2 | TissueBox.Roll Pull 2 |
+| TissueGame_Box_0 | 纸巾筒默认状态 | TissueBox.Sprite Idle |
+| TissueGame_Box_1 | 抽取动画帧 1 | TissueBox.Sprite Pull 1 |
+| TissueGame_Box_2 | 抽取动画帧 2 | TissueBox.Sprite Pull 2 |
 | TissueGame_Tissue_Short | 短纸巾 | TissuePaper.Tissue Short |
 | TissueGame_Tissue_Long | 长纸巾 | TissuePaper.Tissue Long |
 | TissueGame_PileOfTissue_L2 | 纸巾堆 L2（5 次） | TissuePileManager.Pile L2 |

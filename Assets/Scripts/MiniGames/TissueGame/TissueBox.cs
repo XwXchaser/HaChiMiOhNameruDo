@@ -4,37 +4,34 @@ using System.Collections;
 namespace HaChiMiOhNameruDo.MiniGames.TissueGame
 {
     /// <summary>
-    /// 纸巾筒组件
+    /// 纸巾筒组件 - 简化版
     /// 负责纸巾筒的状态管理、显示、装填逻辑
-    /// 支持 Holder（架子）和 Roll（纸卷）分离的美术结构
+    /// 使用单个 SpriteRenderer，通过 Sprite 数组配置动画
     /// </summary>
     public class TissueBox : MonoBehaviour
     {
         [Header("组件引用")]
-        [Tooltip("纸巾筒架子（始终显示）")]
-        [SerializeField] private SpriteRenderer holderRenderer;
-
-        [Tooltip("纸巾卷精灵渲染器")]
-        [SerializeField] private SpriteRenderer rollRenderer;
+        [Tooltip("纸巾筒精灵渲染器")]
+        [SerializeField] private SpriteRenderer spriteRenderer;
 
         [Tooltip("纸巾筒碰撞体")]
         [SerializeField] private Collider2D boxCollider;
 
         [Header("美术素材引用")]
-        [Tooltip("纸巾卷默认状态（Idle）")]
-        public Sprite rollIdle;
+        [Tooltip("纸巾筒默认状态（Idle）")]
+        public Sprite spriteIdle;
 
-        [Tooltip("纸巾卷抽取动画帧 1")]
-        public Sprite rollPull1;
+        [Tooltip("纸巾筒抽取动画帧 1")]
+        public Sprite spritePull1;
 
-        [Tooltip("纸巾卷抽取动画帧 2")]
-        public Sprite rollPull2;
+        [Tooltip("纸巾筒抽取动画帧 2")]
+        public Sprite spritePull2;
 
         [Header("动画设置")]
         [Tooltip("抽取动画播放速度（秒/帧）")]
         public float pullAnimationSpeed = 0.1f;
 
-        [Tooltip("纸巾耗尽时纸卷消失时长")]
+        [Tooltip("纸巾耗尽时消失时长")]
         public float disappearDuration = 1f;
 
         // 状态
@@ -67,8 +64,8 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         private void Awake()
         {
             // 初始化
-            if (holderRenderer == null)
-                holderRenderer = GetComponent<SpriteRenderer>();
+            if (spriteRenderer == null)
+                spriteRenderer = GetComponent<SpriteRenderer>();
             if (boxCollider == null)
                 boxCollider = GetComponent<Collider2D>();
         }
@@ -76,10 +73,10 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         private void Start()
         {
             // 设置初始精灵
-            if (rollRenderer != null && rollIdle != null)
+            if (spriteRenderer != null && spriteIdle != null)
             {
-                rollRenderer.sprite = rollIdle;
-                rollRenderer.enabled = true;
+                spriteRenderer.sprite = spriteIdle;
+                spriteRenderer.enabled = true;
             }
         }
 
@@ -90,40 +87,19 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         {
             StopAllCoroutines();
             currentState = TissueBoxState.Idle;
-            ShowRoll();
+            Show();
+            if (spriteRenderer != null && spriteIdle != null)
+                spriteRenderer.sprite = spriteIdle;
             Debug.Log("[TissueBox] 重置完成");
         }
 
         /// <summary>
-        /// 显示纸卷
-        /// </summary>
-        public void ShowRoll()
-        {
-            if (rollRenderer != null)
-            {
-                rollRenderer.enabled = true;
-                if (rollIdle != null)
-                    rollRenderer.sprite = rollIdle;
-            }
-        }
-
-        /// <summary>
-        /// 隐藏纸卷
-        /// </summary>
-        public void HideRoll()
-        {
-            if (rollRenderer != null)
-                rollRenderer.enabled = false;
-        }
-
-        /// <summary>
-        /// 显示纸巾筒（包括架子和纸卷）
+        /// 显示纸巾筒
         /// </summary>
         public void Show()
         {
-            if (holderRenderer != null)
-                holderRenderer.enabled = true;
-            ShowRoll();
+            if (spriteRenderer != null)
+                spriteRenderer.enabled = true;
             if (boxCollider != null)
                 boxCollider.enabled = true;
         }
@@ -133,9 +109,8 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         /// </summary>
         public void Hide()
         {
-            if (holderRenderer != null)
-                holderRenderer.enabled = false;
-            HideRoll();
+            if (spriteRenderer != null)
+                spriteRenderer.enabled = false;
             if (boxCollider != null)
                 boxCollider.enabled = false;
         }
@@ -146,6 +121,12 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         public void HandlePull()
         {
             if (!CanPull) return;
+
+            // 确保 GameObject 激活
+            if (!gameObject.activeSelf)
+            {
+                gameObject.SetActive(true);
+            }
 
             currentState = TissueBoxState.Pulling;
             Debug.Log("[TissueBox] 抽取纸巾");
@@ -159,13 +140,14 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         }
 
         /// <summary>
-        /// 抽取动画协程（Roll_1 和 Roll_2 循环）
+        /// 抽取动画协程（spritePull1 和 spritePull2 循环）
         /// </summary>
         private IEnumerator PullAnimationCoroutine()
         {
-            if (rollRenderer == null) yield break;
+            if (spriteRenderer == null) yield break;
+            if (spritePull1 == null || spritePull2 == null) yield break;
 
-            // 循环播放 Roll_1 和 Roll_2
+            // 循环播放 spritePull1 和 spritePull2
             bool showFrame1 = true;
             float elapsed = 0f;
 
@@ -176,14 +158,14 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
                 {
                     elapsed = 0f;
                     showFrame1 = !showFrame1;
-                    rollRenderer.sprite = showFrame1 ? rollPull1 : rollPull2;
+                    spriteRenderer.sprite = showFrame1 ? spritePull1 : spritePull2;
                 }
                 yield return null;
             }
 
             // 恢复默认状态
-            if (rollIdle != null)
-                rollRenderer.sprite = rollIdle;
+            if (spriteIdle != null)
+                spriteRenderer.sprite = spriteIdle;
         }
 
         /// <summary>
@@ -195,8 +177,8 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
             {
                 currentState = TissueBoxState.Idle;
                 StopAllCoroutines();
-                if (rollRenderer != null && rollIdle != null)
-                    rollRenderer.sprite = rollIdle;
+                if (spriteRenderer != null && spriteIdle != null)
+                    spriteRenderer.sprite = spriteIdle;
             }
         }
 
@@ -225,14 +207,14 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         {
             currentState = TissueBoxState.Empty;
             OnBoxEmpty?.Invoke();
-            Debug.Log("[TissueBox] 纸巾耗尽，纸卷将慢慢消失");
+            Debug.Log("[TissueBox] 纸巾耗尽，将慢慢消失");
 
-            // 纸卷慢慢消失
+            // 慢慢消失
             StartCoroutine(DisappearCoroutine());
         }
 
         /// <summary>
-        /// 纸卷消失动画协程
+        /// 消失动画协程
         /// </summary>
         private IEnumerator DisappearCoroutine()
         {
@@ -244,22 +226,22 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
                 float t = Mathf.Clamp01(elapsed / disappearDuration);
 
                 // 淡出效果
-                if (rollRenderer != null)
+                if (spriteRenderer != null)
                 {
-                    Color c = rollRenderer.color;
+                    Color c = spriteRenderer.color;
                     c.a = 1 - t;
-                    rollRenderer.color = c;
+                    spriteRenderer.color = c;
                 }
 
                 yield return null;
             }
 
-            // 完全隐藏纸卷，只显示 Holder
-            HideRoll();
-            if (rollRenderer != null)
-                rollRenderer.color = Color.white;  // 恢复透明度
+            // 完全隐藏
+            Hide();
+            if (spriteRenderer != null)
+                spriteRenderer.color = Color.white;  // 恢复透明度
 
-            Debug.Log("[TissueBox] 纸卷已消失，只显示 Holder");
+            Debug.Log("[TissueBox] 已消失");
         }
 
         /// <summary>
@@ -312,12 +294,12 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
         /// </summary>
         private IEnumerator ReloadCoroutine()
         {
-            // 播放装填动画（纸卷淡入）
+            // 播放装填动画（淡入）
             float elapsed = 0f;
             float duration = 0.5f;
 
-            // 确保纸卷隐藏
-            HideRoll();
+            // 确保隐藏
+            Hide();
 
             while (elapsed < duration)
             {
@@ -325,23 +307,23 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
                 float t = Mathf.Clamp01(elapsed / duration);
 
                 // 淡入效果
-                if (rollRenderer != null)
+                if (spriteRenderer != null)
                 {
-                    rollRenderer.enabled = true;
-                    Color c = rollRenderer.color;
+                    spriteRenderer.enabled = true;
+                    Color c = spriteRenderer.color;
                     c.a = t;
-                    rollRenderer.color = c;
+                    spriteRenderer.color = c;
                 }
 
                 yield return null;
             }
 
             // 恢复默认状态
-            if (rollRenderer != null)
+            if (spriteRenderer != null)
             {
-                rollRenderer.color = Color.white;
-                if (rollIdle != null)
-                    rollRenderer.sprite = rollIdle;
+                spriteRenderer.color = Color.white;
+                if (spriteIdle != null)
+                    spriteRenderer.sprite = spriteIdle;
             }
 
             // 装填完成

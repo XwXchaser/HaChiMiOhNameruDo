@@ -170,8 +170,6 @@ GameObject:
   m_Component:
   - component: {fileID: 169937130}
   - component: {fileID: 169937131}
-  - component: {fileID: 169937132}
-  - component: {fileID: 169937133}
   - component: {fileID: 169937134}
   - component: {fileID: 169937135}
   m_Layer: 3
@@ -209,49 +207,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068dbd8d8c20741408beafaf72d0f43a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 169937132}
   spriteRenderer: {fileID: 169937134}
-  furBallSpawnPoint: {fileID: 0}
-  furBallYOffset: 1.5
-  tissueSpawnPoint: {fileID: 0}
---- !u!95 &169937132
-Animator:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169937129}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 23a00fca4681ec14caf85b61df12d92b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_UpdateFrequencyMode: 0
-  m_UpdateFrequency: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!111 &169937133
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 169937129}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 0}
-  m_Animations: []
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
+  frameRate: 8
+  furBallIdleFrames:
+  - {fileID: 21300000, guid: 63ff471d36103384980453b592228fbe, type: 3}
+  furBallSlapFrames:
+  - {fileID: 21300000, guid: 025ba5fe3c7980342bb5a56e728419ea, type: 3}
+  tissueIdleFrames:
+  - {fileID: 21300000, guid: 3a075b623f5bdb343a19c5dcd818730a, type: 3}
+  tissuePullFrames:
+  - {fileID: 21300000, guid: c323aca9dc043354295035080d3fc2f5, type: 3}
+  - {fileID: 21300000, guid: 40158db89859b8c419515c5124b2c56f, type: 3}
+  tissueCutFrames:
+  - {fileID: 21300000, guid: cc9659b59d5276343b1a25a5b697cb63, type: 3}
+  - {fileID: 21300000, guid: a5f149978663afc45a9d536061d9b1f1, type: 3}
 --- !u!212 &169937134
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -304,7 +273,7 @@ SpriteRenderer:
   m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &169937135
@@ -319,9 +288,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4543174501fe95f4699c1e980405e69f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 169937132}
+  animator: {fileID: 0}
   minBlinkInterval: 3.5
   maxBlinkInterval: 5.5
+  nextBlinkTime: 0
 --- !u!1 &196598559
 GameObject:
   m_ObjectHideFlags: 0
@@ -2300,6 +2270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   furBall: {fileID: 170038381282606709, guid: a1f00713cf20df64bbf10e00f125986b, type: 3}
   catController: {fileID: 169937131}
+  inputHandler: {fileID: 0}
   gameDuration: 30
 --- !u!1 &1769439001
 GameObject:
@@ -2384,6 +2355,7 @@ MonoBehaviour:
   l2Renderer: {fileID: 8238719909365464878, guid: ea30133862907e74892477a64b8fbd49, type: 3}
   l1Renderer: {fileID: 0}
   config: {fileID: 11400000, guid: ce3b72c232fa3394b8e74035b7e28bb5, type: 2}
+  sortingLayerOrder: 0
 --- !u!4 &1852969656
 Transform:
   m_ObjectHideFlags: 0
