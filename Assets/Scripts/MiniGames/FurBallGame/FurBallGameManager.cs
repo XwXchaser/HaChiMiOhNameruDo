@@ -76,7 +76,7 @@ namespace HaChiMiOhNameruDo.MiniGames.FurBallGame
             if (catController == null)
                 catController = FindObjectOfType<CatController>();
             
-            catController?.PrepareForFurBall();
+            catController?.PlayFurBallIdle();
 
             // 生成/重置毛球
             if (furBall == null)
@@ -151,7 +151,7 @@ namespace HaChiMiOhNameruDo.MiniGames.FurBallGame
             if (catController == null)
                 catController = FindObjectOfType<CatController>();
             
-            catController?.DoPaws();
+            catController?.PlayFurBallSlap();
         }
     }
 }

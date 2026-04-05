@@ -209,7 +209,7 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
             currentState = TissueGameState.Pulling;
             tissueBox?.HandlePull();
             // 触发猫咪扒拉动画
-            catController?.DoPull();
+            catController?.PlayTissuePull();
         }
 
         private void HandlePullUpdate(Vector2 startPos, Vector2 delta)
@@ -248,7 +248,7 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
                     tissueBox.HandleCut();
                     tissuePaper?.Cut();
                     // 触发猫咪切断动画
-                    catController?.DoCut();
+                    catController?.PlayTissueCut();
                 }
             }
             // 在堆积区域：清理纸巾
@@ -281,7 +281,7 @@ namespace HaChiMiOhNameruDo.MiniGames.TissueGame
                     tissueBox.HandleCut();
                     tissuePaper?.Cut();
                     // 触发猫咪切断动画
-                    catController?.DoCut();
+                    catController?.PlayTissueCut();
                 }
             }
             // 在堆积区域：清理纸巾
