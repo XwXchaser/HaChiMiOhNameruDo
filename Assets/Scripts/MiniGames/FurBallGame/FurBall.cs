@@ -137,16 +137,8 @@ namespace HaChiMiOhNameruDo.MiniGames.FurBallGame
             currentState = BallState.Idle;
             moveTimer = 0;
 
-            // 获取猫咪位置作为初始位置
-            var catController = FindObjectOfType<Gameplay.CatController>();
-            if (catController != null)
-            {
-                startPosition = catController.GetFurBallSpawnPosition();
-            }
-            else
-            {
-                startPosition = transform.position;
-            }
+            // 使用默认位置
+            startPosition = transform.position;
 
             transform.position = startPosition;
         }
@@ -214,10 +206,6 @@ namespace HaChiMiOhNameruDo.MiniGames.FurBallGame
 
             // 通知管理器
             FurBallGameManager.Instance?.OnBallPawed();
-
-            // 触发猫咪拍击动画
-            var catController = FindObjectOfType<Gameplay.CatController>();
-            catController?.DoPaws();
 
             // 开始上升运动
             StartLaunching();
