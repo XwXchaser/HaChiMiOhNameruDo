@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0ec16f9f490e3ad4c88ccc0b5c34ba03, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -103,13 +103,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d56d956cdbecc984a9c0c79944502415, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segmentHeight: 0.1
-  extendSpeed: 0.5
-  spriteRenderer: {fileID: 0}
-  paperCollider: {fileID: 8477150069659816019}
-  anchorPoint: {fileID: 0}
-  cutParticlePrefab: {fileID: 0}
-  cutParticleCount: 10
+  spriteRenderer: {fileID: 4256278059665782089}
+  tissueShort: {fileID: 21300000, guid: 28c92e33bf0b7424eb6decda97a82de0, type: 3}
+  tissueLong: {fileID: 21300000, guid: 0ec16f9f490e3ad4c88ccc0b5c34ba03, type: 3}
+  longThreshold: 5
 --- !u!61 &8477150069659816019
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -117,7 +114,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8053292777465456628}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -148,7 +145,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 1.32, y: 6.16}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -168,6 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d69128b637ae734f97256bd48d0e571, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tissueGameManager: {fileID: 0}
-  tissueCollider: {fileID: 8477150069659816019}
-  swipeThreshold: 50
+  tissueBoxZone: {fileID: 0}
+  tissuePileZone: {fileID: 0}
+  config: {fileID: 0}

@@ -1,173 +1,213 @@
 using UnityEngine;
-using System.Collections.Generic;
+using System.Collections;
 
 namespace HaChiMiOhNameruDo.MiniGames.TissueGame
 {
     /// <summary>
-    /// 厕纸组件
-    /// 负责厕纸的延伸、滚动和切碎效果
+    /// 纸巾组件
+    /// 负责纸巾的状态管理、延伸（Short/Long 状态切换）、切断效果
     /// </summary>
     public class TissuePaper : MonoBehaviour
     {
-        [Header("厕纸设置")]
-        [SerializeField] private float segmentHeight = 0.1f;    // 每段厕纸的高度
-        [SerializeField] private float extendSpeed = 0.5f;      // 延伸速度
-
         [Header("组件引用")]
         [SerializeField] private SpriteRenderer spriteRenderer;
-        [SerializeField] private Collider2D paperCollider;
-        [SerializeField] private Transform anchorPoint;         // 厕纸固定点（纸巾筒底部）
 
-        [Header("切碎效果")]
-        [SerializeField] private GameObject cutParticlePrefab;  // 切碎粒子预制体
-        [SerializeField] private int cutParticleCount = 10;     // 粒子数量
+        [Header("美术素材引用")]
+        [Tooltip("短纸巾精灵（初次被扒拉或切断后）")]
+        public Sprite tissueShort;
 
-        // 当前厕纸长度（段数）
-        private int currentLength;
-        private List<GameObject> paperSegments;  // 厕纸段列表
+        [Tooltip("长纸巾精灵（一直扒拉不切断）")]
+        public Sprite tissueLong;
+
+        [Header("延伸设置")]
+        [Tooltip("切换到长纸巾所需的扒拉次数")]
+        public int longThreshold = 5;
+
+        [Header("渲染设置")]
+        [Tooltip("排序层级（确保在正确图层渲染）")]
+        public int sortingLayerOrder = 0;
+
+        // 状态
+        private TissuePaperState currentState = TissuePaperState.Connected;
+
+        // 扒拉次数（用于决定 Short/Long 状态）
+        private int pullCount = 0;
+
+        // 事件
+        public delegate void PaperAction(int length);
+        public event PaperAction OnPaperExtended;     // 纸巾延伸事件
+        public event PaperAction OnPaperCut;          // 纸巾切断事件
+        public event System.Action OnPaperRetracted;  // 纸巾收回事件
+
+        /// <summary>
+        /// 纸巾状态
+        /// </summary>
+        public enum TissuePaperState
+        {
+            Connected,      // 连接中（延伸）
+            Cut,            // 已切断
+            Retracting,     // 收回中
+            Retracted       // 已收回
+        }
+
+        public TissuePaperState CurrentState => currentState;
+        public int PullCount => pullCount;
+        public bool IsLong => pullCount >= longThreshold;
+        public bool IsCut => currentState == TissuePaperState.Cut;
 
         private void Awake()
         {
             if (spriteRenderer == null)
                 spriteRenderer = GetComponent<SpriteRenderer>();
-            if (paperCollider == null)
-                paperCollider = GetComponent<Collider2D>();
             
-            paperSegments = new List<GameObject>();
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.sortingOrder = sortingLayerOrder;
+            }
         }
 
         private void Start()
         {
-            Hide();
+            // 初始显示纸巾（即使扒拉次数为 0 也显示）
+            Show();
+            UpdateTissueSprite();
         }
 
         /// <summary>
-        /// 重置厕纸
+        /// 重置纸巾
         /// </summary>
         public void ResetPaper()
         {
             StopAllCoroutines();
-            currentLength = 0;
-
-            // 清除所有厕纸段
-            foreach (var segment in paperSegments)
-            {
-                if (segment != null)
-                    Destroy(segment);
-            }
-            paperSegments.Clear();
-
+            currentState = TissuePaperState.Connected;
+            pullCount = 0;
+            UpdateTissueSprite();
             Show();
+            Debug.Log("[TissuePaper] 重置完成");
         }
 
         /// <summary>
-        /// 显示厕纸
+        /// 显示纸巾
         /// </summary>
         public void Show()
         {
             if (spriteRenderer != null)
                 spriteRenderer.enabled = true;
-            if (paperCollider != null)
-                paperCollider.enabled = true;
         }
 
         /// <summary>
-        /// 隐藏厕纸
+        /// 隐藏纸巾
         /// </summary>
         public void Hide()
         {
             if (spriteRenderer != null)
                 spriteRenderer.enabled = false;
-            if (paperCollider != null)
-                paperCollider.enabled = false;
         }
 
         /// <summary>
-        /// 延伸厕纸
+        /// 延伸纸巾（每次扒拉调用）
         /// </summary>
-        /// <param name="newLength">新的厕纸长度（段数）</param>
-        public void ExtendPaper(int newLength)
+        public void Extend()
         {
-            if (newLength <= currentLength) return;
+            if (currentState != TissuePaperState.Connected) return;
 
-            // 添加新的厕纸段
-            while (currentLength < newLength)
+            pullCount++;
+            UpdateTissueSprite();
+
+            OnPaperExtended?.Invoke(pullCount);
+            Debug.Log($"[TissuePaper] 延伸，当前扒拉次数：{pullCount}, 状态：{(IsLong ? "Long" : "Short")}");
+        }
+
+        /// <summary>
+        /// 更新纸巾精灵（Short/Long 切换）
+        /// </summary>
+        private void UpdateTissueSprite()
+        {
+            if (spriteRenderer == null) return;
+
+            // 确保精灵已设置
+            if (pullCount >= longThreshold && tissueLong != null)
             {
-                CreatePaperSegment(currentLength);
-                currentLength++;
+                // 长纸巾状态
+                spriteRenderer.sprite = tissueLong;
             }
-        }
-
-        /// <summary>
-        /// 创建一段厕纸
-        /// </summary>
-        private void CreatePaperSegment(int segmentIndex)
-        {
-            // 计算位置（从锚点向下）
-            Vector3 segmentPosition = anchorPoint.position + Vector3.down * (segmentIndex * segmentHeight);
+            else if (pullCount > 0 && tissueShort != null)
+            {
+                // 短纸巾状态（初次扒拉后）
+                spriteRenderer.sprite = tissueShort;
+            }
+            else if (tissueShort != null)
+            {
+                // 初始状态显示短纸巾（或者可以设置一个默认精灵）
+                spriteRenderer.sprite = tissueShort;
+            }
             
-            // 创建厕纸段 GameObject
-            GameObject segment = new GameObject($"TissueSegment_{segmentIndex}");
-            segment.transform.position = segmentPosition;
-            segment.transform.SetParent(transform);
-
-            // 添加 SpriteRenderer
-            SpriteRenderer sr = segment.AddComponent<SpriteRenderer>();
-            if (spriteRenderer != null)
-            {
-                sr.sprite = spriteRenderer.sprite;
-                sr.color = spriteRenderer.color;
-                sr.sortingOrder = spriteRenderer.sortingOrder - segmentIndex;
-            }
-
-            // 添加 Collider
-            BoxCollider2D collider = segment.AddComponent<BoxCollider2D>();
-            collider.size = new Vector2(0.5f, segmentHeight * 0.9f);
-
-            paperSegments.Add(segment);
+            Debug.Log($"[TissuePaper] 更新精灵：pullCount={pullCount}, sprite={(spriteRenderer.sprite != null ? spriteRenderer.sprite.name : "null")}");
         }
 
         /// <summary>
-        /// 切碎厕纸
+        /// 切断纸巾
         /// </summary>
-        public void CutPaper()
+        public void Cut()
         {
-            Debug.Log("[TissuePaper] 切碎厕纸！");
+            if (currentState != TissuePaperState.Connected) return;
+            if (pullCount == 0) return;
 
-            // 生成切碎粒子效果
-            SpawnCutParticles();
+            currentState = TissuePaperState.Cut;
+            OnPaperCut?.Invoke(pullCount);
+            Debug.Log($"[TissuePaper] 切断，扒拉次数：{pullCount}");
 
-            // 移除所有厕纸段
-            foreach (var segment in paperSegments)
-            {
-                if (segment != null)
-                    Destroy(segment);
-            }
-            paperSegments.Clear();
-
-            currentLength = 0;
+            // 开始收回协程
+            StartCoroutine(RetractCoroutine());
         }
 
         /// <summary>
-        /// 生成切碎粒子效果
+        /// 收回纸巾协程
         /// </summary>
-        private void SpawnCutParticles()
+        private IEnumerator RetractCoroutine()
         {
-            if (cutParticlePrefab == null) return;
+            currentState = TissuePaperState.Retracting;
 
-            for (int i = 0; i < cutParticleCount; i++)
+            // 播放收回动画（淡出效果）
+            float elapsed = 0f;
+            float duration = 0.3f;
+
+            while (elapsed < duration)
             {
-                // 在厕纸区域随机位置生成粒子
-                Vector3 spawnPos = anchorPoint.position + 
-                    new Vector3(
-                        Random.Range(-0.5f, 0.5f),
-                        Random.Range(-currentLength * segmentHeight * 0.5f, 0),
-                        0
-                    );
+                elapsed += Time.deltaTime;
+                float t = Mathf.Clamp01(elapsed / duration);
 
-                GameObject particle = Instantiate(cutParticlePrefab, spawnPos, Quaternion.identity);
-                Destroy(particle, 2f);  // 2 秒后销毁
+                // 淡出效果
+                Color c = spriteRenderer.color;
+                c.a = 1 - t;
+                spriteRenderer.color = c;
+
+                yield return null;
             }
+
+            spriteRenderer.color = Color.white;  // 恢复透明度
+            pullCount = 0;
+            UpdateTissueSprite();
+
+            currentState = TissuePaperState.Retracted;
+            OnPaperRetracted?.Invoke();
+            Debug.Log("[TissuePaper] 收回完成");
+        }
+
+        /// <summary>
+        /// 设置长纸巾阈值
+        /// </summary>
+        public void SetLongThreshold(int threshold)
+        {
+            longThreshold = threshold;
+        }
+
+        /// <summary>
+        /// 检查是否可以切断
+        /// </summary>
+        public bool CanCut()
+        {
+            return currentState == TissuePaperState.Connected && pullCount > 0;
         }
     }
 }

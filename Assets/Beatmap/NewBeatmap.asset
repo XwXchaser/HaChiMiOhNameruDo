@@ -1,0 +1,353 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da3e7b149eb49ef46ab0104f88e16495, type: 3}
+  m_Name: NewBeatmap
+  m_EditorClassIdentifier: 
+  beatmapName: New Beatmap
+  musicClip: {fileID: 8300000, guid: 2a7900f5fc7e7b944b8628a28ab3ec27, type: 3}
+  musicDuration: 30
+  bpm: 110
+  beatsPerMeasure: 4
+  notes:
+  - measure: 0
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 0
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 0
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 0
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 1
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 1
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 1
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 1
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 2
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 2
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 2
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 2
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 3
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 3
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 3
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 3
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 4
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 4
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 4
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 4
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 5
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 5
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 5
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 5
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 6
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 6
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 6
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 6
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 7
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 7
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 7
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 7
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 8
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 8
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 8
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 8
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 9
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 9
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 9
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 9
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 10
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 10
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 10
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 10
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 11
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 11
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 11
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 11
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 12
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 12
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 12
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 12
+    beatInMeasure: 3
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 13
+    beatInMeasure: 0
+    noteType: 1
+    intensity: 1.5
+    holdDuration: 1
+    isStrongBeat: 1
+  - measure: 13
+    beatInMeasure: 1
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  - measure: 13
+    beatInMeasure: 2
+    noteType: 1
+    intensity: 1
+    holdDuration: 1
+    isStrongBeat: 0
+  difficulty: 1
+  autoGenerateNotes: 1
+  notesPerMeasure: 4

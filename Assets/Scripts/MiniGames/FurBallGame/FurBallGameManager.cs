@@ -15,6 +15,7 @@ namespace HaChiMiOhNameruDo.MiniGames.FurBallGame
         [Header("组件引用")]
         [SerializeField] private FurBall furBall;
         [SerializeField] private CatController catController;
+        [SerializeField] private InputHandler inputHandler;
 
         [Header("游戏设置")]
         [SerializeField] private float gameDuration = 30f;  // 游戏时长
@@ -39,6 +40,27 @@ namespace HaChiMiOhNameruDo.MiniGames.FurBallGame
         {
             // 初始状态：不激活
             gameObject.SetActive(false);
+        }
+
+        private void OnEnable()
+        {
+            // 订阅输入事件
+            if (inputHandler == null)
+                inputHandler = FindObjectOfType<InputHandler>();
+            
+            if (inputHandler != null)
+            {
+                inputHandler.OnTap += HandleScreenTap;
+            }
+        }
+
+        private void OnDisable()
+        {
+            // 取消订阅输入事件
+            if (inputHandler != null)
+            {
+                inputHandler.OnTap -= HandleScreenTap;
+            }
         }
 
         /// <summary>
@@ -101,6 +123,35 @@ namespace HaChiMiOhNameruDo.MiniGames.FurBallGame
             if (!isGameActive) return;
 
             Debug.Log("[FurBallGame] 毛球回到原位");
+        }
+
+        /// <summary>
+        /// 处理屏幕点击（触发猫咪拍击动画）
+        /// </summary>
+        private void HandleScreenTap(Vector2 position)
+        {
+            if (!isGameActive) return;
+
+            // 检查是否点击到 UI（如果是则不触发）
+            if (UnityEngine.EventSystems.EventSystem.current != null)
+            {
+                var eventData = new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current);
+                eventData.position = position;
+                var raycastResults = new System.Collections.Generic.List<UnityEngine.EventSystems.RaycastResult>();
+                UnityEngine.EventSystems.EventSystem.current.RaycastAll(eventData, raycastResults);
+                
+                // 如果点击到 UI，则不触发猫咪动画
+                if (raycastResults.Count > 0)
+                {
+                    return;
+                }
+            }
+
+            // 触发猫咪拍击动画
+            if (catController == null)
+                catController = FindObjectOfType<CatController>();
+            
+            catController?.DoPaws();
         }
     }
 }

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:yousandi.cn,2023:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c00000000000000d000000000000002, type: 3}
+  m_Name: TissueGameConfig
+  m_EditorClassIdentifier: 
+  maxTissueCount: 15
+  pullThreshold: 50
+  swipeThreshold: 50
+  swipesPerClear: 3
+  clearMoveDistance: 1000
+  clearMoveDuration: 0.5
+  clearChamberDuration: 0.3
+  reloadDuration: 0.5
+  segmentsPerPull: 1
+  segmentHeight: 0.1
+  maxPaperLength: 20
+  idealTissueLength: 10

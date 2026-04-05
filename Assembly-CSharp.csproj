@@ -61,19 +61,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Managers\AudioManager.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\Rhythm\RhythmTestController.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\Rhythm\RhythmNoteVisualizer.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\Rhythm\RhythmInputHandler.cs" />
     <Compile Include="Assets\Scripts\MiniGames\TissueGame\TissuePaper.cs" />
     <Compile Include="Assets\Scripts\MiniGames\TissueGame\TissueBox.cs" />
     <Compile Include="Assets\Scripts\Gameplay\CatController.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\TissueGame\TissueGameConfig.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
     <Compile Include="Assets\Scripts\Gameplay\InputHandler.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\TissueGame\TissuePileManager.cs" />
     <Compile Include="Assets\Scripts\MiniGames\FurBallGame\FurBallGameManager.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\Rhythm\RhythmRewardConfig.cs" />
+    <Compile Include="Assets\Scripts\Managers\RhythmManager.cs" />
     <Compile Include="Assets\Scripts\Gameplay\CatBlinkController.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\Rhythm\RhythmJudgmentSystem.cs" />
     <Compile Include="Assets\Scripts\MiniGames\TissueGame\TissueInputHandler.cs" />
     <Compile Include="Assets\Scripts\UI\IdleUI.cs" />
     <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\Rhythm\JudgmentZone.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\Rhythm\BeatmapConfig.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\Rhythm\RhythmFeedback.cs" />
     <Compile Include="Assets\Scripts\Managers\HapticManager.cs" />
     <Compile Include="Assets\Scripts\MiniGames\TissueGame\TissueGameManager.cs" />
     <Compile Include="Assets\Scripts\MiniGames\FurBallGame\FurBall.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\Rhythm\BeatEvent.cs" />
+    <Compile Include="Assets\Scripts\MiniGames\Rhythm\RhythmUIManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

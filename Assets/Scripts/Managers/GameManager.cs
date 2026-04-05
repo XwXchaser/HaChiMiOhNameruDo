@@ -190,8 +190,8 @@ namespace HaChiMiOhNameruDo.Managers
 
         private void ExitTissueGame()
         {
-            // 结束纸巾筒小游戏
-            TissueGameManager.Instance?.EndGame();
+            // 退出纸巾筒小游戏（重置状态）
+            TissueGameManager.Instance?.ResetGame();
         }
 
         #endregion
@@ -240,7 +240,7 @@ namespace HaChiMiOhNameruDo.Managers
             }
             else if (currentState == GameState.TissueGame)
             {
-                TissueGameManager.Instance?.EndGame();
+                TissueGameManager.Instance?.ResetGame();
             }
 
             // 隐藏小游戏 UI
