@@ -564,5 +564,6 @@ namespace HaChiMiOhNameruDo.MiniGames.Rhythm
             }
         }
     }
+    }
 }
 

@@ -74,7 +74,6 @@
     <Compile Include="Assets\Scripts\MiniGames\FurBallGame\FurBallGameManager.cs" />
     <Compile Include="Assets\Scripts\MiniGames\Rhythm\RhythmRewardConfig.cs" />
     <Compile Include="Assets\Scripts\Managers\RhythmManager.cs" />
-    <Compile Include="Assets\Scripts\Gameplay\CatBlinkController.cs" />
     <Compile Include="Assets\Scripts\MiniGames\Rhythm\RhythmJudgmentSystem.cs" />
     <Compile Include="Assets\Scripts\MiniGames\TissueGame\TissueInputHandler.cs" />
     <Compile Include="Assets\Scripts\UI\IdleUI.cs" />

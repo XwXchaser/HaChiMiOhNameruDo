@@ -107,6 +107,7 @@ MonoBehaviour:
   tissueShort: {fileID: 21300000, guid: 28c92e33bf0b7424eb6decda97a82de0, type: 3}
   tissueLong: {fileID: 21300000, guid: 0ec16f9f490e3ad4c88ccc0b5c34ba03, type: 3}
   longThreshold: 5
+  sortingLayerOrder: 0
 --- !u!61 &8477150069659816019
 BoxCollider2D:
   m_ObjectHideFlags: 0
